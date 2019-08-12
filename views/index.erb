@@ -1,0 +1,170 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>Deposit calculator</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.js"></script>  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script type="text/javascript">
+      $(function (){
+        // $('#deposit').on('submit',function (event) {
+        //   event.preventDefault();
+        //   $.ajax({
+        //     url: "deposit",
+        //     dataType: 'json',
+        //     contentType: 'application/json',
+        //     type: 'POST',
+        //     data : JSON.stringify($(this).serializeArray()),
+        //     accepts: "application/json",
+        //     success: function(json) {
+        //       document.getElementById("result").innerHTML = Math.floor(Math.random() * 20);
+        //     }
+        //   })
+        // })
+        (function ($) {
+            $.fn.serializeFormJSON = function () {
+
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function () {
+                    if (o[this.name]) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
+                return JSON.stringify(o);
+            };
+        })(jQuery);
+
+        $('#deposit').validate({
+          rules:{
+            money: {
+              required: true,
+              number: true,
+              min: 100
+            },
+            rate: {
+              required: true,
+              number: true,
+              range: [0,100]
+            },
+            date: {
+              required: true,
+              dateISO: true,              
+            },
+            term: {
+              required: true,
+            },
+            period: {
+              required: true,
+              number: true,
+              min: 1
+            },
+            capitalization: {
+              required: true,
+            }
+          },
+          messages: {
+            money: {
+              required: "Please fill this field",
+              number: "Please enter number",
+              min: "Please enter number 100 or bigger"
+            },
+            rate: {
+              required: "Please fill this field",
+              number: "Please enter number",
+              min: "Please enter number between 1 and 100"
+            },
+            date: {
+              required: "Please fill this field",
+              dateISO: "Wrond data format"
+            },
+            term: {
+              required: "Please fill this field",
+            },
+            period: {
+              required: "Please fill this field",
+              number: "Please enter number",
+              min: "Please enter number 1 or bigger"
+            },
+            capitalization: {
+              required: "Please fill this field",
+            }
+          },
+          submitHandler : function (form){
+            $.ajax({
+              url: "/deposit",
+              dataType: 'json',
+              contentType: 'application/json',
+              type: 'POST',
+              data : $(form).serializeFormJSON(),
+              accepts: "application/json",
+              success: function(json) {
+                document.getElementById("result").innerHTML = json.result;
+              }
+            });
+          }
+        })
+      });
+    </script>
+
+  </head>
+  <body>
+    <form action="/" method="post" id="deposit" class="container">
+      <div class="form-group row">
+        <label for="inputAmount" class="col-sm-6 col-form-label">Contribution amount</label>
+        <div class="col-sm-2">
+          <input name="money" type="number" class="form-control" id="inputAmount" placeholder="0.00">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputRate" class="col-sm-6 col-form-label">Annual rate</label>
+        <div class="col-sm-2">
+          <input name="rate" type="number" class="form-control" id="inputRate" placeholder="0.00">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputDate" class="col-sm-6 col-form-label">Date of contribution</label>
+        <div class="col-sm-2">
+          <input name="date" type="date" class="form-control" id="inputDate">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputPeriod" class="col-sm-4 col-form-label">Contribution period</label>
+        <div class="col-sm-2">
+          <select name="term" class="form-control" id="selectPeriod">
+            <option>Month</option>
+            <option>Year</option>
+          </select>
+        </div>
+        <div class="col-sm-2">
+          <input name="period" type="number" class="form-control" id="inputPeriod" placeholder="0">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="capitalization" class="col-sm-6 col-form-label">Capitalization</label>
+        <div class="col-sm-2">
+          <select name="capitalization" class="form-control" id="selectCapitalization">
+            <option>None</option>
+            <option>Monthly</option>
+            <option>Quarterly</option>
+            <option>Annually</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-2">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+      <div class="form-group row" id="result">
+      </div>
+    </form>
+    
+  </body>
+</html>
