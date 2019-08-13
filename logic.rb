@@ -70,7 +70,7 @@ module CalculationService
 			capitalization = 4 if capitalization == "Quarterly"
 			capitalization = 12 if capitalization == "Annually"
 			period *= 12 if term == "Year"
-			result = (money * (1 + (rate/100).to_f*capitalization/12)**(period/capitalization)).round(2)
+			result = (money * (1 + (rate/100).to_f*(capitalization*30).to_i/365)**(period/capitalization)).round(2)
 		end
 
 		private :with_capitalization, :without_capitalization
