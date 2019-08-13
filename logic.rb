@@ -56,7 +56,6 @@ module CalculationService
 					new_hash[:capitalization] = capitalization
 				end
 			end
-			print new_hash
 			new_hash
 		end	
 		def without_capitalization(money, rate, date, term, period)

@@ -18,10 +18,6 @@ post '/deposit', :provides => :json do
 		result = "Wrong parameters"
 	end	
 
-	print result
-	a = {:result => result}.to_json
-	print a
-
 	{:result => result}.to_json
 end
 
