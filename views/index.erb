@@ -8,20 +8,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script type="text/javascript">
       $(function (){
-        // $('#deposit').on('submit',function (event) {
-        //   event.preventDefault();
-        //   $.ajax({
-        //     url: "deposit",
-        //     dataType: 'json',
-        //     contentType: 'application/json',
-        //     type: 'POST',
-        //     data : JSON.stringify($(this).serializeArray()),
-        //     accepts: "application/json",
-        //     success: function(json) {
-        //       document.getElementById("result").innerHTML = Math.floor(Math.random() * 20);
-        //     }
-        //   })
-        // })
         (function ($) {
             $.fn.serializeFormJSON = function () {
 
@@ -105,67 +91,69 @@
               data : $(form).serializeFormJSON(),
               accepts: "application/json",
               success: function(json) {
-                document.getElementById("result").innerHTML = json.result;
+                document.getElementById("result").innerHTML = "Total : " + json.result;
               }
             });
           }
         })
       });
     </script>
-
+    <style type="text/css">
+      .error{
+        color: red;
+      }
+    </style>
   </head>
   <body>
-    <div class="card">
-      <form action="/" method="post" id="deposit" class="container">
-        <div class="form-group row">
-          <label for="inputAmount" class="col-sm-6 col-form-label">Contribution amount</label>
-          <div class="col-sm-2">
-            <input name="money" type="number" class="form-control" id="inputAmount" placeholder="0.00">
-          </div>
+    <form action="/" method="post" id="deposit" class="container" style="margin-right: 1px">
+      <div class="form-group row">
+        <label for="inputAmount" class="col-sm-6 col-form-label">Contribution amount</label>
+        <div class="col-sm-2">
+          <input name="money" type="number" class="form-control" id="inputAmount" placeholder="0.00">
         </div>
-        <div class="form-group row">
-          <label for="inputRate" class="col-sm-6 col-form-label">Annual rate</label>
-          <div class="col-sm-2">
-            <input name="rate" type="number" class="form-control" id="inputRate" placeholder="0.00">
-          </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputRate" class="col-sm-6 col-form-label">Annual rate</label>
+        <div class="col-sm-2">
+          <input name="rate" type="number" class="form-control" id="inputRate" placeholder="0.00">
         </div>
-        <div class="form-group row">
-          <label for="inputDate" class="col-sm-6 col-form-label">Date of contribution</label>
-          <div class="col-sm-2">
-            <input name="date" type="date" class="form-control" id="inputDate">
-          </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputDate" class="col-sm-6 col-form-label">Date of contribution</label>
+        <div class="col-sm-2">
+          <input name="date" type="date" class="form-control" id="inputDate">
         </div>
-        <div class="form-group row">
-          <label for="inputPeriod" class="col-sm-4 col-form-label">Contribution period</label>
-          <div class="col-sm-2">
-            <select name="term" class="form-control" id="selectPeriod">
-              <option>Month</option>
-              <option>Year</option>
-            </select>
-          </div>
-          <div class="col-sm-2">
-            <input name="period" type="number" class="form-control" id="inputPeriod" placeholder="0">
-          </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputPeriod" class="col-sm-4 col-form-label">Contribution period</label>
+        <div class="col-sm-2">
+          <select name="term" class="form-control" id="selectPeriod">
+            <option>Month</option>
+            <option>Year</option>
+          </select>
         </div>
-        <div class="form-group row">
-          <label for="capitalization" class="col-sm-6 col-form-label">Capitalization</label>
-          <div class="col-sm-2">
-            <select name="capitalization" class="form-control" id="selectCapitalization">
-              <option>None</option>
-              <option>Monthly</option>
-              <option>Quarterly</option>
-              <option>Annually</option>
-            </select>
-          </div>
+        <div class="col-sm-2">
+          <input name="period" type="number" class="form-control" id="inputPeriod" placeholder="0">
         </div>
-        <div class="form-group row">
-          <div class="col-sm-2">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
+      </div>
+      <div class="form-group row">
+        <label for="capitalization" class="col-sm-6 col-form-label">Capitalization</label>
+        <div class="col-sm-2">
+          <select name="capitalization" class="form-control" id="selectCapitalization">
+            <option>None</option>
+            <option>Monthly</option>
+            <option>Quarterly</option>
+            <option>Annually</option>
+          </select>
         </div>
-        <div class="form-group row" id="result">
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-2">
+          <button type="submit" class="btn btn-primary">Submit</button>
         </div>
-      </form>
+      </div>
+    </form>
+    <div class="card text-center" id="result">
     </div>
   </body>
 </html>
