@@ -3,10 +3,6 @@ require 'sinatra'
 require 'json'
 require './logic.rb'
 
-
-
-
-
 get '/' do
   erb :index
 end
